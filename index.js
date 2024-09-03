@@ -17,8 +17,8 @@ app.use(express.json());
 
 // ACCESS ALLOW ORIGIN - CORS ERROR HANDLING
 app.use(cors({
-    origin: ["https://my-personal-notes-ten.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: ["https://my-personal-notes-ten.vercel.app","http://127.0.0.1:5173"],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true
 }));
 
