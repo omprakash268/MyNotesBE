@@ -16,7 +16,11 @@ dbConnect();
 app.use(express.json());
 
 // ACCESS ALLOW ORIGIN - CORS ERROR HANDLING
-app.use(cors());
+app.use(cors({
+    origin: ["http://"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 
 
 // Routing
