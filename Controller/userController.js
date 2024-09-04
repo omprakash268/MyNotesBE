@@ -46,12 +46,18 @@ export const updateUserById = async (req, res) => {
 
 }
 
+// User login authentication
 export const loginUserAuth = async (req, res) => {
     const email = req.body.email;
     try {
-        const user = await User.findOne({ email: email },'name email _id');
-        if (user) {
-            res.status(200).json({ msg: "Login successful", data: user });
+        const user = await User.findOne({ email: email });
+        if (user && user.password == req.body.password) {
+            const resUser = {
+                _id: user._id,
+                name: user.name,
+                email: user.email
+            }
+            res.status(200).json({ msg: "Login successful", data: resUser });
         } else {
             res.status(404).json({ msg: "Check your credentials", data: null });
         }
