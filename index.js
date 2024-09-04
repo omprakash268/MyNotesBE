@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import notesRouter from './Router/notesRouter.js';
+import userRouter from './Router/userRouter.js';
 import dbConnect from './db/dbConnect.js';
 import cors from 'cors';
 
@@ -17,7 +18,7 @@ app.use(express.json());
 
 // ACCESS ALLOW ORIGIN - CORS ERROR HANDLING
 app.use(cors({
-    origin: ["https://my-personal-notes-ten.vercel.app","http://127.0.0.1:5173"],
+    origin: ["https://my-personal-notes-ten.vercel.app", "http://127.0.0.1:5173"],
     methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true
 }));
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
     res.send("Status ok.");
 })
 app.use("/note", notesRouter);
+app.use("/user", userRouter);
 
 
 // Server listening

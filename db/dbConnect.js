@@ -10,6 +10,7 @@ main().catch(err => console.log(err));
 async function main() {
 
     await mongoose.connect(uri);
+    console.log("db connected");
 
 }
 

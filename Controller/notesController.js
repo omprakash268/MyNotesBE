@@ -1,18 +1,31 @@
 import Note from "../Model/Notes.js";
+import User from "../Model/User.js";
 
 export const getAllNotesById = async (req, res) => {
     const id = req.params.id;
+    try {
+        const user = await User.findById(id).populate('notes');
+        if (user) {
+            res.status(200).json({ msg: "Sucess", data: user.notes });
+        } else {
+            res.status(404).json({ msg: "Not found", data: [] });
+        }
+    } catch (err) {
+        res.status(404).json({ msg: "Error", err: err });
+    }
 
-    const allNotes = await Note.find();
-    res.json({ msg: "getAllNotesById", data: allNotes });
 }
 
 export const createNote = async (req, res) => {
+    const id = req.params.id;
     try {
-        const newNote = new Note(req.body)
+        const newNote = new Note({ ...req.body, user: id });
 
         await newNote.save();
-        res.json({ msg: "createNote" });
+
+        const user = await User.findByIdAndUpdate(id, { $addToSet: { notes: newNote._id } }, { new: true });
+
+        res.json({ msg: "createNote", data: newNote });
     } catch (err) {
         res.send(err);
     }
