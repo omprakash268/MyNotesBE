@@ -18,7 +18,7 @@ export const addNewUser = async (req, res) => {
         const newUser = new User(req.body)
 
         await newUser.save();
-        res.json({ msg: "created user" });
+        res.json({ msg: "created user", data:{_id:newUser._id} });
     } catch (err) {
         res.send(err);
     }
