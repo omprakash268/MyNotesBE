@@ -18,9 +18,15 @@ export const addNewUser = async (req, res) => {
         const newUser = new User(req.body)
 
         await newUser.save();
-        res.json({ msg: "created user", data:{_id:newUser._id} });
+        res.status(201).json({ msg: "created user", data: { _id: newUser._id } });
     } catch (err) {
-        res.send(err);
+        try {
+            const user = await User.findOne({ email: req.body.email });
+            res.status(200).json({ msg: "user fetched", data: user._id });
+        } catch (cErr) {
+            res.status(400).json({ status: 400, msg: "Something went wrong.", err: cErr })
+        }
+
     }
 }
 
